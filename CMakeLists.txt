@@ -5,6 +5,7 @@ project(ll_InventorySystem)
 include(cmake/fileLists.cmake)
 include(cmake/flags.cmake)
 include(cmake/cppcheck.cmake)
+include(cmake/clang-tidy.cmake)
 
 
 add_library(${PROJECT_NAME}
