@@ -17,6 +17,7 @@ This is the game's inventory system module.
 ## Technologies
 - CMake
 - C++20
+- googletest (https://github.com/google/googletest)
 - cppcheck
 - clang-tidy
 - clang-format
