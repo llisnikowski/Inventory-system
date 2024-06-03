@@ -7,6 +7,7 @@ include(cmake/flags.cmake)
 include(cmake/cppcheck.cmake)
 include(cmake/clang-tidy.cmake)
 include(cmake/clang-format.cmake)
+include(cmake/pre-commit-check.cmake)
 
 
 add_library(${PROJECT_NAME}

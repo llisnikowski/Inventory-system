@@ -23,6 +23,7 @@ This is the game's inventory system module.
 - valgrind
 - docker
 - GitHub Actions
+- pre-commit
 
 ## Development
 #### 1. Run cmake
