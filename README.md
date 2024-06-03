@@ -14,6 +14,10 @@ This is the game's inventory system module.
 - additional fields (armor, accessories, ...),
 - optional arrangement of items.
 
+## Technologies
+- CMake
+- C++20
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
 
