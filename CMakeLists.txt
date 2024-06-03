@@ -4,6 +4,8 @@ project(ll_InventorySystem)
 
 include(cmake/fileLists.cmake)
 include(cmake/flags.cmake)
+include(cmake/cppcheck.cmake)
+
 
 add_library(${PROJECT_NAME}
     ${MAIN_SOURCES}
