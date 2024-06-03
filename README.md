@@ -21,6 +21,7 @@ This is the game's inventory system module.
 - clang-tidy
 - clang-format
 - valgrind
+- docker
 
 ## Development
 #### 1. Run cmake
@@ -105,6 +106,15 @@ valgrind --leak-check=full \
          ./<BUILD DIR>/CarDashboardApp
 ```
 
+### Docker
+#### Build
+```
+docker build -t inventory-system .
+```
+#### Run
+```
+docker run -it --rm -v "$PWD":/home/project -w /home/project inventory-system
+```
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
