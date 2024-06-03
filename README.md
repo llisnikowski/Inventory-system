@@ -19,6 +19,7 @@ This is the game's inventory system module.
 - C++20
 - Cppcheck
 - Clang-tidy
+- Clang-format
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
