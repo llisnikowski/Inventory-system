@@ -1,4 +1,4 @@
-# 
+#
 # clang-format version 14.0.0
 #
 
@@ -27,7 +27,7 @@ AllowShortLoopsOnASingleLine: true
 
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
-AlwaysBreakTemplateDeclarations: MultiLine
+AlwaysBreakTemplateDeclarations: Yes
 
 BinPackArguments: true
 BinPackParameters: true
@@ -141,4 +141,3 @@ Standard: Auto
 
 TabWidth: 4
 #UseTab: Always
----
