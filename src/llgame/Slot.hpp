@@ -17,6 +17,8 @@ public:
     bool addItem(Item item);
 
 protected:
+    virtual bool canBePlaced(Item item);
+
     Item item;
 };
 
@@ -34,7 +36,14 @@ bool Slot<T>::addItem(Item item)
     if(this->item) {
         return this->item->transferFrom(item);
     }
+    if(!canBePlaced(item)) return false;
     this->item = item;
+    return true;
+}
+
+template<typename T>
+bool Slot<T>::canBePlaced(Item item)
+{
     return true;
 }
 
