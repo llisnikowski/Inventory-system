@@ -31,7 +31,9 @@ auto Slot<T>::getItem() const -> const Item
 template<typename T>
 bool Slot<T>::addItem(Item item)
 {
-    if(this->item) return false;
+    if(this->item) {
+        return this->item->transferFrom(item);
+    }
     this->item = item;
     return true;
 }
