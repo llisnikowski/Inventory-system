@@ -4,17 +4,16 @@
 #include "llgame/Container.hpp"
 #include "ItemMock.hpp"
 
-using testing::Return;
 
 namespace
 {
-
+using testing::Return;
+using testing::_;
 
 template<typename T>
 class SlotMock : public llgame::Slot<T>
 {
 public:
-protected:
     MOCK_METHOD(bool, canBePlaced, (std::shared_ptr<T>), (override));
 };
 
@@ -74,4 +73,43 @@ TEST(Container_test, iterators)
     EXPECT_EQ(container.rend(), slots.rend());
     EXPECT_EQ(constContainer.rend(), constSlots.rend());
     EXPECT_EQ(container.crend(), slots.crend());
+}
+
+TEST(Container_test, addItem)
+{
+    llgame::Container<SlotMock<ItemMock>> container(3);
+    auto item1 = std::make_shared<ItemMock>();
+    auto item2 = std::make_shared<ItemMock>();
+    auto item3 = std::make_shared<ItemMock>();
+    auto item4 = std::make_shared<ItemMock>();
+    auto item5 = std::make_shared<ItemMock>();
+
+    EXPECT_CALL(container.getSlot(0), canBePlaced(item1))
+    .WillOnce(Return(true));
+    EXPECT_EQ(container.addItem(item1), nullptr);
+    EXPECT_EQ(container.getSlot(0).getItem(), item1);
+
+    EXPECT_CALL(*item1, transferFrom(item2)).WillOnce(Return(item2));
+    EXPECT_CALL(container.getSlot(1), canBePlaced(item2))
+    .WillOnce(Return(true));
+    EXPECT_EQ(container.addItem(item2), nullptr);
+    EXPECT_EQ(container.getSlot(1).getItem(), item2);
+
+    EXPECT_CALL(*item1, transferFrom(item3)).WillOnce(Return(item3));
+    EXPECT_CALL(*item2, transferFrom(item3)).WillOnce(Return(item3));
+    EXPECT_CALL(container.getSlot(2), canBePlaced(item3))
+    .WillOnce(Return(true));
+    EXPECT_EQ(container.addItem(item3), nullptr);
+    EXPECT_EQ(container.getSlot(2).getItem(), item3);
+
+    EXPECT_CALL(*item1, transferFrom(item4)).WillOnce(Return(item4));
+    EXPECT_CALL(*item2, transferFrom(item4)).WillOnce(Return(nullptr));
+    EXPECT_CALL(*item3, transferFrom(_)).Times(0);
+    EXPECT_EQ(container.addItem(item4), nullptr);
+    EXPECT_EQ(container.getSlot(1).getItem(), item2);
+
+    EXPECT_CALL(*item1, transferFrom(item5)).WillOnce(Return(item5));
+    EXPECT_CALL(*item2, transferFrom(item5)).WillOnce(Return(item5));
+    EXPECT_CALL(*item3, transferFrom(item5)).WillOnce(Return(item5));
+    EXPECT_EQ(container.addItem(item5), item5);
 }

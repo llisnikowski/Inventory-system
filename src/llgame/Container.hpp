@@ -9,6 +9,7 @@ class Container
 {
 public:
     using Slots                  = std::vector<T>;
+    using Item                   = typename T::Item;
     using iterator               = typename Slots::iterator;
     using const_iterator         = typename Slots::const_iterator;
     using reverse_iterator       = typename Slots::reverse_iterator;
@@ -16,11 +17,11 @@ public:
 
     explicit Container(std::size_t size);
 
-    template<typename It>
-    auto setItem(
-    std::size_t x, It it) -> decltype(std::declval<T>().setItem(it));
+    Item setItem(std::size_t x, Item item);
     T& getSlot(std::size_t x);
     const T& getSlot(std::size_t x) const;
+
+    Item addItem(Item item);
 
     Slots& getSlots() { return slots; }
     const Slots& getSlots() const { return slots; }
@@ -55,18 +56,25 @@ Container<T>::Container(std::size_t size)
 {}
 
 template<typename T>
-template<typename It>
-auto Container<T>::setItem(
-std::size_t x, It it) -> decltype(std::declval<T>().setItem(it))
+auto Container<T>::setItem(std::size_t x, Item item) -> Item
 {
-    if(x >= slots.size()) return it;
-    return slots[x].setItem(it);
+    if(x >= slots.size()) return item;
+    return slots[x].setItem(item);
 }
 
 template<typename T>
 auto Container<T>::getSlot(std::size_t x) -> T&
 {
     return slots.at(x);
+}
+
+template<typename T>
+auto Container<T>::addItem(Item item) -> Item
+{
+    for(auto& slot: this->slots) {
+        if(!slot.addItem(item)) return {};
+    }
+    return item;
 }
 
 template<typename T>
