@@ -1,14 +1,9 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 #include "llgame/Slot.hpp"
+#include "ItemMock.hpp"
 
 using testing::Return;
-
-class ItemMock
-{
-public:
-    MOCK_METHOD(bool, transferFrom, (std::shared_ptr<ItemMock>) );
-};
 
 
 TEST(Slot_test, addItem)
