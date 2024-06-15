@@ -53,3 +53,23 @@ TEST(Slot_test, cannotBePlaced)
     EXPECT_FALSE(slot.addItem(item1));
     EXPECT_EQ(slot.getItem(), nullptr);
 }
+
+TEST(Slot_test, setItem)
+{
+    llgame::Slot<ItemMock> slot;
+
+    auto item1 = std::make_shared<ItemMock>();
+    auto item2 = std::make_shared<ItemMock>();
+
+    EXPECT_EQ(slot.setItem(item1), nullptr);
+    EXPECT_EQ(slot.getItem(), item1);
+
+    EXPECT_EQ(slot.setItem(item2), item1);
+    EXPECT_EQ(slot.getItem(), item2);
+
+    EXPECT_EQ(slot.operator=(item1), item2);
+    EXPECT_EQ(slot.getItem(), item1);
+
+    EXPECT_EQ(slot.setItem(nullptr), item1);
+    EXPECT_EQ(slot.getItem(), nullptr);
+}
