@@ -14,13 +14,13 @@ public:
     virtual ~Slot() = default;
 
     const Item getItem() const;
-    bool addItem(Item item);
+    Item addItem(Item newItem);
     Item setItem(Item newItem);
 
-    Item operator=(Item item);
+    Item operator=(Item newItem);
 
 protected:
-    virtual bool canBePlaced(Item item);
+    virtual bool canBePlaced(Item newItem);
 
     Item item;
 };
@@ -30,22 +30,22 @@ protected:
 template<typename T>
 auto Slot<T>::getItem() const -> const Item
 {
-    return item;
+    return this->item;
 }
 
 template<typename T>
-bool Slot<T>::addItem(Item item)
+auto Slot<T>::addItem(Item newItem) -> Item
 {
     if(this->item) {
-        return this->item->transferFrom(item);
+        return this->item->transferFrom(newItem);
     }
-    if(!canBePlaced(item)) return false;
-    this->item = item;
-    return true;
+    if(!canBePlaced(newItem)) return newItem;
+    this->item = newItem;
+    return {};
 }
 
 template<typename T>
-bool Slot<T>::canBePlaced(Item item)
+bool Slot<T>::canBePlaced(Item newItem)
 {
     return true;
 }
@@ -53,14 +53,15 @@ bool Slot<T>::canBePlaced(Item item)
 template<typename T>
 auto Slot<T>::setItem(Item newItem) -> Item
 {
+    if(this->item == newItem) return {};
     this->item.swap(newItem);
     return newItem;
 }
 
 template<typename T>
-auto Slot<T>::operator=(Item item) -> Item
+auto Slot<T>::operator=(Item newItem) -> Item
 {
-    return setItem(item);
+    return setItem(newItem);
 }
 
 } // namespace llgame

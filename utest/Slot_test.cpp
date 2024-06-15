@@ -12,12 +12,12 @@ TEST(Slot_test, addItem)
     EXPECT_FALSE(slot.getItem());
 
     auto item1 = std::make_shared<ItemMock>();
-    EXPECT_TRUE(slot.addItem(item1));
+    EXPECT_EQ(slot.addItem(item1), nullptr);
     EXPECT_EQ(slot.getItem(), item1);
 
     auto item2 = std::make_shared<ItemMock>();
-    EXPECT_CALL(*item1, transferFrom(item2)).Times(1).WillOnce(Return(false));
-    EXPECT_FALSE(slot.addItem(item2));
+    EXPECT_CALL(*item1, transferFrom(item2)).Times(1).WillOnce(Return(item2));
+    EXPECT_EQ(slot.addItem(item2), item2);
     EXPECT_EQ(slot.getItem(), item1);
 }
 
@@ -27,11 +27,11 @@ TEST(Slot_test, stackable)
     EXPECT_FALSE(slot.getItem());
 
     auto item1 = std::make_shared<ItemMock>();
-    EXPECT_TRUE(slot.addItem(item1));
+    EXPECT_EQ(slot.addItem(item1), nullptr);
 
     auto item2 = std::make_shared<ItemMock>();
-    EXPECT_CALL(*item1, transferFrom(item2)).Times(1).WillOnce(Return(true));
-    EXPECT_TRUE(slot.addItem(item2));
+    EXPECT_CALL(*item1, transferFrom(item2)).Times(1).WillOnce(Return(nullptr));
+    EXPECT_EQ(slot.addItem(item2), nullptr);
     EXPECT_EQ(slot.getItem(), item1);
 }
 
@@ -50,7 +50,7 @@ TEST(Slot_test, cannotBePlaced)
 
     auto item1 = std::make_shared<ItemMock>();
     EXPECT_CALL(slot, canBePlaced(item1)).Times(1).WillOnce(Return(false));
-    EXPECT_FALSE(slot.addItem(item1));
+    EXPECT_EQ(slot.addItem(item1), item1);
     EXPECT_EQ(slot.getItem(), nullptr);
 }
 
@@ -65,6 +65,9 @@ TEST(Slot_test, setItem)
     EXPECT_EQ(slot.getItem(), item1);
 
     EXPECT_EQ(slot.setItem(item2), item1);
+    EXPECT_EQ(slot.getItem(), item2);
+
+    EXPECT_EQ(slot.setItem(item2), nullptr);
     EXPECT_EQ(slot.getItem(), item2);
 
     EXPECT_EQ(slot.operator=(item1), item2);

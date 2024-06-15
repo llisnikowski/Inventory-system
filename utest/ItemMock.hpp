@@ -5,5 +5,6 @@
 class ItemMock
 {
 public:
-    MOCK_METHOD(bool, transferFrom, (std::shared_ptr<ItemMock>) );
+    MOCK_METHOD(
+    std::shared_ptr<ItemMock>, transferFrom, (std::shared_ptr<ItemMock>) );
 };
